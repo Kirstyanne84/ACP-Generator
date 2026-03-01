@@ -547,17 +547,17 @@ function generateDoc() {
     color: #0070C0;
     font-size: 12pt;
     font-weight: bold;
-    margin-top: 14pt;
-    margin-bottom: 6pt;
+    margin-top: 10pt;
+    margin-bottom: 4pt;
     border-bottom: 1px solid #0070C0;
-    padding-bottom: 3pt;
+    padding-bottom: 2pt;
   }
   h3 {
     color: #0070C0;
     font-size: 11pt;
     font-weight: bold;
-    margin-top: 10pt;
-    margin-bottom: 4pt;
+    margin-top: 8pt;
+    margin-bottom: 3pt;
   }
   table.details {
     width: 100%;
@@ -584,9 +584,8 @@ function generateDoc() {
   .section-box {
     border: 1px solid #ccc;
     padding: 8pt 10pt;
-    margin-bottom: 10pt;
+    margin-bottom: 8pt;
     border-radius: 2pt;
-    min-height: 40pt;
   }
   table.status {
     width: 100%;
@@ -605,12 +604,12 @@ function generateDoc() {
     width: 30%;
   }
   .page-break {
-    page-break-before: always;
+    page-break-before: auto;
   }
   .agreed-box {
     border: 2px solid #0070C0;
-    padding: 10pt;
-    margin: 8pt 0;
+    padding: 8pt;
+    margin: 4pt 0 8pt 0;
     background: #f5f8fc;
   }
 </style>
@@ -747,8 +746,7 @@ Information should be reflected in relevant care plans and electronic systems.</
   <div class="content">${esc(triggers)}</div>
 </div>
 
-<br><br>
-<table class="details">
+<table class="details" style="margin-top: 14pt;">
   <tr>
     <td class="label">Resident / Representative signature:</td>
     <td style="height:30pt"></td>
