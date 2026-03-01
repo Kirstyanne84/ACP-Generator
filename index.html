@@ -14,765 +14,575 @@
     padding: 24px 32px;
     text-align: center;
   }
+  .app-header.dementia { background: linear-gradient(135deg, #6a1b9a, #8e24aa); }
   .app-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 4px; }
   .app-header p { font-size: 14px; opacity: 0.85; }
 
   .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
 
+  .type-chooser {
+    display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .type-btn {
+    flex: 1; max-width: 350px; padding: 24px; border-radius: 12px;
+    border: 3px solid #ddd; background: white; cursor: pointer;
+    text-align: center; transition: all 0.2s;
+  }
+  .type-btn:hover { border-color: #0070C0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .type-btn.active-standard { border-color: #0070C0; background: #f0f7ff; }
+  .type-btn.active-dementia { border-color: #6a1b9a; background: #f5f0ff; }
+  .type-btn h3 { font-size: 18px; margin-bottom: 6px; }
+  .type-btn p { font-size: 13px; color: #666; }
+  .type-btn .icon { font-size: 32px; margin-bottom: 8px; }
+
   .step-indicator {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
   }
   .step-dot {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: #ddd;
-    color: #999;
+    width: 36px; height: 36px; border-radius: 50%; background: #ddd; color: #999;
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 600;
-    transition: all 0.3s;
+    font-size: 14px; font-weight: 600; transition: all 0.3s; cursor: pointer;
   }
   .step-dot.active { background: #0070C0; color: white; }
   .step-dot.completed { background: #28a745; color: white; }
+  body.dementia-mode .step-dot.active { background: #6a1b9a; }
 
   .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 32px;
-    margin-bottom: 24px;
+    background: white; border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px; margin-bottom: 24px;
   }
-  .card h2 {
-    color: #0070C0;
-    font-size: 20px;
-    margin-bottom: 6px;
-    border-bottom: 2px solid #0070C0;
-    padding-bottom: 8px;
-  }
-  .card .subtitle {
-    color: #666;
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
+  .card h2 { color: #0070C0; font-size: 20px; margin-bottom: 6px; border-bottom: 2px solid #0070C0; padding-bottom: 8px; }
+  body.dementia-mode .card h2 { color: #6a1b9a; border-bottom-color: #6a1b9a; }
+  .card .subtitle { color: #666; font-size: 13px; margin-bottom: 20px; }
 
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
   .form-row.full { grid-template-columns: 1fr; }
-
   .form-group { margin-bottom: 16px; }
-  .form-group label {
-    display: block;
-    font-weight: 600;
-    font-size: 13px;
-    color: #444;
-    margin-bottom: 4px;
+  .form-group label { display: block; font-weight: 600; font-size: 13px; color: #444; margin-bottom: 4px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px;
+    font-size: 14px; font-family: inherit; transition: border-color 0.2s;
   }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    font-family: inherit;
-    transition: border-color 0.2s;
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none; border-color: #0070C0; box-shadow: 0 0 0 3px rgba(0,112,192,0.15);
   }
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: #0070C0;
-    box-shadow: 0 0 0 3px rgba(0,112,192,0.15);
-  }
+  body.dementia-mode .form-group input:focus, body.dementia-mode .form-group textarea:focus,
+  body.dementia-mode .form-group select:focus { border-color: #6a1b9a; box-shadow: 0 0 0 3px rgba(106,27,154,0.15); }
   .form-group textarea { resize: vertical; min-height: 100px; }
-  .form-group .hint {
-    font-size: 12px;
-    color: #888;
-    margin-top: 3px;
-  }
+  .form-group .hint { font-size: 12px; color: #888; margin-top: 3px; }
 
-  .btn-row {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  .btn {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .btn-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+  .btn { padding: 10px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .btn-primary { background: #0070C0; color: white; }
   .btn-primary:hover { background: #005a9e; }
+  body.dementia-mode .btn-primary { background: #6a1b9a; }
+  body.dementia-mode .btn-primary:hover { background: #4a148c; }
   .btn-secondary { background: #e9ecef; color: #333; }
   .btn-secondary:hover { background: #ddd; }
-  .btn-success { background: #28a745; color: white; }
-  .btn-success:hover { background: #218838; }
-  .btn-download { background: #6f42c1; color: white; font-size: 16px; padding: 14px 32px; }
-  .btn-download:hover { background: #5a32a3; }
+  .btn-download { background: #28a745; color: white; font-size: 16px; padding: 14px 32px; }
+  .btn-download:hover { background: #218838; }
+  .btn-example { background: #6c757d; color: white; }
+  .btn-example:hover { background: #5a6268; }
+  .btn-switch { background: #dc3545; color: white; font-size: 12px; padding: 8px 16px; }
+  .btn-switch:hover { background: #c82333; }
 
   .hidden { display: none !important; }
-
-  .preview-section {
-    text-align: center;
-    padding: 40px;
-  }
-  .preview-section h2 {
-    border: none;
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-  .preview-section p { color: #666; margin-bottom: 24px; }
-
-  .required::after {
-    content: ' *';
-    color: #dc3545;
-  }
+  .required::after { content: ' *'; color: #dc3545; }
 </style>
 </head>
 <body>
 
-<div class="app-header">
-  <h1>ACP Generator</h1>
-  <p>Future Care and Anticipatory Care Planning</p>
-  <button class="btn" style="margin-top:12px; background:rgba(255,255,255,0.2); color:white; border:1px solid rgba(255,255,255,0.4);" onclick="loadExample()">Load Example (John Smith)</button>
+<div class="app-header" id="appHeader">
+  <h1 id="headerTitle">ACP Generator</h1>
+  <p id="headerSubtitle">Future Care and Anticipatory Care Planning</p>
 </div>
 
 <div class="container">
-  <div class="step-indicator" id="stepIndicator">
-    <div class="step-dot active" data-step="1">1</div>
-    <div class="step-dot" data-step="2">2</div>
-    <div class="step-dot" data-step="3">3</div>
-    <div class="step-dot" data-step="4">4</div>
-    <div class="step-dot" data-step="5">5</div>
-    <div class="step-dot" data-step="6">6</div>
-    <div class="step-dot" data-step="7">7</div>
+
+  <!-- TYPE CHOOSER -->
+  <div id="typeChooser">
+    <div class="type-chooser">
+      <div class="type-btn" onclick="selectType('standard')">
+        <div class="icon">📋</div>
+        <h3>Standard ACP</h3>
+        <p>Future Care and Anticipatory Care Planning for residents who can participate in their own planning</p>
+      </div>
+      <div class="type-btn" onclick="selectType('dementia')">
+        <div class="icon">🧠</div>
+        <h3>Advanced Dementia ACP</h3>
+        <p>Best-interest decision-making for people living with advanced dementia, focusing on comfort, dignity and quality of life</p>
+      </div>
+    </div>
   </div>
 
-  <!-- STEP 1: Resident Details -->
-  <div class="card step-card" data-step="1">
+  <!-- STEP INDICATOR -->
+  <div class="step-indicator hidden" id="stepIndicator"></div>
+
+  <!-- ============================================ -->
+  <!-- STANDARD ACP STEPS -->
+  <!-- ============================================ -->
+
+  <!-- S1: Resident Details -->
+  <div class="card hidden" id="s1">
     <h2>Resident Details</h2>
     <p class="subtitle">Basic information about the resident</p>
-
     <div class="form-row">
-      <div class="form-group">
-        <label class="required">Resident full name</label>
-        <input type="text" id="residentName" placeholder="e.g. John Smith">
-      </div>
-      <div class="form-group">
-        <label>Preferred name</label>
-        <input type="text" id="preferredName" placeholder="e.g. John">
-      </div>
+      <div class="form-group"><label class="required">Resident full name</label><input type="text" id="s_residentName" placeholder="e.g. John Smith"></div>
+      <div class="form-group"><label>Preferred name</label><input type="text" id="s_preferredName" placeholder="e.g. John"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Date of birth</label>
-        <input type="text" id="dob" placeholder="e.g. 05/04/1938">
-      </div>
-      <div class="form-group">
-        <label>Room number</label>
-        <input type="text" id="roomNo" placeholder="e.g. 12">
-      </div>
+      <div class="form-group"><label>Date of birth</label><input type="text" id="s_dob" placeholder="e.g. 05/04/1938"></div>
+      <div class="form-group"><label>Room number</label><input type="text" id="s_roomNo" placeholder="e.g. 12"></div>
     </div>
     <div class="form-row full">
-      <div class="form-group">
-        <label>Care home name and address</label>
-        <input type="text" id="homeName" placeholder="e.g. Glentora Care Home, Andrews Avenue, Ayr">
-      </div>
+      <div class="form-group"><label>Care home name and address</label><input type="text" id="s_homeName" placeholder="e.g. Glentora Care Home, Andrews Avenue, Ayr"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>People involved in this plan</label>
-        <input type="text" id="peopleInvolved" placeholder="e.g. John Smith, Kirsty Baxter (Key Worker)">
-      </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="text" id="planDate" placeholder="e.g. 17/02/2026">
-      </div>
+      <div class="form-group"><label>People involved in this plan</label><input type="text" id="s_peopleInvolved" placeholder="e.g. John Smith, Kirsty Baxter (Key Worker)"></div>
+      <div class="form-group"><label>Date</label><input type="text" id="s_planDate" placeholder="e.g. 17/02/2026"></div>
     </div>
-
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="goToStep(2)">Next</button>
+      <button class="btn btn-switch" onclick="switchType()">Switch ACP Type</button>
+      <button class="btn btn-example" onclick="loadStandardExample()">Load Example</button>
+      <button class="btn btn-primary" onclick="goStep(2)">Next</button>
     </div>
   </div>
 
-  <!-- STEP 2: What Matters / Understanding -->
-  <div class="card step-card hidden" data-step="2">
+  <!-- S2: What Matters -->
+  <div class="card hidden" id="s2">
     <h2>What Matters and Understanding</h2>
     <p class="subtitle">What is important to the resident and what they understand about their condition</p>
-
-    <div class="form-group">
-      <label class="required">What matters to me</label>
-      <textarea id="whatMatters" rows="6" placeholder="Write in the resident's own words. What is most important to them? Their routines, relationships, independence, things they enjoy, what makes them feel safe."></textarea>
-      <p class="hint">Example: "Ma family, ma routines, ma independence. I like tae get up at ma own pace, have ma breakfast, and watch ma programmes. I want folk around me that I trust."</p>
-    </div>
-
-    <div class="form-group">
-      <label class="required">What I understand about my condition and my future</label>
-      <textarea id="whatIUnderstand" rows="6" placeholder="What does the resident know about their health? What have they been told? What do they understand about what may happen?"></textarea>
-      <p class="hint">Example: "I know ma dementia is gettin worse and I'm no gonnae get better. I've talked about it wi ma daughter and the nurse."</p>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(1)">Back</button>
-      <button class="btn btn-primary" onclick="goToStep(3)">Next</button>
-    </div>
+    <div class="form-group"><label class="required">What matters to me</label><textarea id="s_whatMatters" rows="6" placeholder="Write in the resident's own words. What is most important to them?"></textarea></div>
+    <div class="form-group"><label class="required">What I understand about my condition and my future</label><textarea id="s_whatIUnderstand" rows="6" placeholder="What does the resident know about their health?"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(1)">Back</button><button class="btn btn-primary" onclick="goStep(3)">Next</button></div>
   </div>
 
-  <!-- STEP 3: Wishes for Future Care -->
-  <div class="card step-card hidden" data-step="3">
+  <!-- S3: Future Wishes -->
+  <div class="card hidden" id="s3">
     <h2>Wishes for Future Care</h2>
-    <p class="subtitle">Where the resident would like to spend the last days of their life and their future care preferences</p>
-
-    <div class="form-group">
-      <label class="required">My wishes and preferences for my future care and where I would like to spend the last days of my life</label>
-      <textarea id="futureWishes" rows="6" placeholder="Where do they want to be? What do they want at the end? Who do they want around them?"></textarea>
-      <p class="hint">Example: "I want tae stay here at Glentora where I know folk. I don't want tae go tae hospital if it can be helped. I want Karen wi me."</p>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(2)">Back</button>
-      <button class="btn btn-primary" onclick="goToStep(4)">Next</button>
-    </div>
+    <p class="subtitle">Where the resident would like to spend the last days of their life</p>
+    <div class="form-group"><label class="required">My wishes and preferences for my future care</label><textarea id="s_futureWishes" rows="6" placeholder="Where do they want to be? What do they want at the end?"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(2)">Back</button><button class="btn btn-primary" onclick="goStep(4)">Next</button></div>
   </div>
 
-  <!-- STEP 4: Everyday Care Wishes -->
-  <div class="card step-card hidden" data-step="4">
+  <!-- S4: Everyday Care -->
+  <div class="card hidden" id="s4">
     <h2>Wishes for Everyday Care</h2>
-    <p class="subtitle">The resident's preferences for daily routines, food, personal care and support</p>
-
-    <div class="form-group">
-      <label>Food and drink preferences</label>
-      <textarea id="foodDrink" rows="4" placeholder="Diet, favourite foods, dislikes, texture, SALT requirements, fluid preferences"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Personal care preferences</label>
-      <textarea id="personalCare" rows="4" placeholder="Washing routine, products, preferences, dignity needs, how they like to be helped"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>My routines and daily life</label>
-      <textarea id="routines" rows="4" placeholder="What their day looks like, what they enjoy, how they spend their time, sleep preferences"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>How I want to be supported</label>
-      <textarea id="supportPrefs" rows="4" placeholder="How they like staff to approach them, communication needs, what helps, what makes things worse"></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(3)">Back</button>
-      <button class="btn btn-primary" onclick="goToStep(5)">Next</button>
-    </div>
+    <p class="subtitle">Preferences for daily routines, food, personal care and support</p>
+    <div class="form-group"><label>Food and drink</label><textarea id="s_foodDrink" rows="4" placeholder="Diet, favourite foods, dislikes, texture, fluid preferences"></textarea></div>
+    <div class="form-group"><label>Personal care</label><textarea id="s_personalCare" rows="4" placeholder="Washing routine, products, preferences, dignity needs"></textarea></div>
+    <div class="form-group"><label>My routines and daily life</label><textarea id="s_routines" rows="4" placeholder="What their day looks like, what they enjoy"></textarea></div>
+    <div class="form-group"><label>How I want to be supported</label><textarea id="s_supportPrefs" rows="4" placeholder="Communication needs, what helps, what makes things worse"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(3)">Back</button><button class="btn btn-primary" onclick="goStep(5)">Next</button></div>
   </div>
 
-  <!-- STEP 5: Treatment and CPR -->
-  <div class="card step-card hidden" data-step="5">
+  <!-- S5: Treatment and CPR -->
+  <div class="card hidden" id="s5">
     <h2>Treatment and Medical Decisions</h2>
     <p class="subtitle">Views on treatment, CPR preferences, and medical decision-making</p>
-
-    <div class="form-group">
-      <label>Views on treatment and medical decisions</label>
-      <textarea id="treatmentViews" rows="5" placeholder="What does the resident want regarding treatment? Hospital preferences? Medication wishes?"></textarea>
-      <p class="hint">Example: "I don't mind going tae hospital if it makes me better, but I'd rather be looked after here if possible."</p>
-    </div>
-
+    <div class="form-group"><label>Views on treatment and medical decisions</label><textarea id="s_treatmentViews" rows="5" placeholder="Hospital preferences, medication wishes"></textarea></div>
     <div class="form-row">
-      <div class="form-group">
-        <label>DNACPR in place?</label>
-        <select id="dnacpr">
-          <option value="">-- Select --</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-          <option value="Not yet discussed">Not yet discussed</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>DNACPR location</label>
-        <input type="text" id="dnacprLocation" placeholder="e.g. Duty room file">
-      </div>
+      <div class="form-group"><label>DNACPR in place?</label><select id="s_dnacpr"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not yet discussed">Not yet discussed</option></select></div>
+      <div class="form-group"><label>DNACPR location</label><input type="text" id="s_dnacprLocation" placeholder="e.g. Duty room file"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>KIS form on file?</label>
-        <select id="kis">
-          <option value="">-- Select --</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-          <option value="Not yet discussed">Not yet discussed</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>ACP location</label>
-        <input type="text" id="acpLocation" placeholder="e.g. Duty room file and electronic care plan">
-      </div>
+      <div class="form-group"><label>KIS form on file?</label><select id="s_kis"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not yet discussed">Not yet discussed</option></select></div>
+      <div class="form-group"><label>ACP location</label><input type="text" id="s_acpLocation" placeholder="e.g. Duty room file and electronic care plan"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>POA Welfare (name)</label>
-        <input type="text" id="poaWelfare" placeholder="e.g. Margaret Smith (wife)">
-      </div>
-      <div class="form-group">
-        <label>POA Financial (name)</label>
-        <input type="text" id="poaFinancial" placeholder="e.g. Margaret Smith (wife)">
-      </div>
+      <div class="form-group"><label>POA Welfare</label><input type="text" id="s_poaWelfare" placeholder="e.g. Margaret Smith (wife)"></div>
+      <div class="form-group"><label>POA Financial</label><input type="text" id="s_poaFinancial" placeholder="e.g. Margaret Smith (wife)"></div>
     </div>
-
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(4)">Back</button>
-      <button class="btn btn-primary" onclick="goToStep(6)">Next</button>
-    </div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(4)">Back</button><button class="btn btn-primary" onclick="goStep(6)">Next</button></div>
   </div>
 
-  <!-- STEP 6: Preferred Place and People -->
-  <div class="card step-card hidden" data-step="6">
+  <!-- S6: Place and People -->
+  <div class="card hidden" id="s6">
     <h2>Preferred Place of Care and People</h2>
     <p class="subtitle">Where the resident wants to be cared for and who they want involved</p>
-
-    <div class="form-group">
-      <label>Preferred place of care</label>
-      <textarea id="preferredPlace" rows="3" placeholder="Where do they want to be cared for if their health deteriorates?"></textarea>
-      <p class="hint">Example: "I want tae stay at Glentora. This is ma home now and I'm comfortable here."</p>
-    </div>
-
-    <div class="form-group">
-      <label>People I would like involved in my care and decisions</label>
-      <textarea id="peopleInvolveCare" rows="4" placeholder="Family, friends, professionals. Who should be contacted? Who has decision-making authority?"></textarea>
-      <p class="hint">List names and roles. Example: "Margaret Smith (wife, POA welfare and financial), Dr Campbell (GP), Key Worker name"</p>
-    </div>
-
-    <div class="form-group">
-      <label>Important contacts</label>
-      <textarea id="contacts" rows="4" placeholder="GP practice, pharmacy, social worker, CPN, specialist, next of kin with phone numbers if known"></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(5)">Back</button>
-      <button class="btn btn-primary" onclick="goToStep(7)">Next</button>
-    </div>
+    <div class="form-group"><label>Preferred place of care</label><textarea id="s_preferredPlace" rows="3" placeholder="Where do they want to be cared for?"></textarea></div>
+    <div class="form-group"><label>People I would like involved</label><textarea id="s_peopleInvolveCare" rows="4" placeholder="Family, friends, professionals"></textarea></div>
+    <div class="form-group"><label>Important contacts</label><textarea id="s_contacts" rows="4" placeholder="GP, pharmacy, next of kin, social worker"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(5)">Back</button><button class="btn btn-primary" onclick="goStep(7)">Next</button></div>
   </div>
 
-  <!-- STEP 7: Review and Download -->
-  <div class="card step-card hidden" data-step="7">
+  <!-- S7: Review and Download -->
+  <div class="card hidden" id="s7">
     <h2>Agreed Plan and Review</h2>
     <p class="subtitle">Summary of wishes and review arrangements</p>
-
-    <div class="form-group">
-      <label class="required">Summary of agreed wishes</label>
-      <textarea id="agreedWishes" rows="5" placeholder="3 to 5 short statements capturing the person's core wishes."></textarea>
-      <p class="hint">Example:
-Respect my choices and keep me informed.
-Keep me comfortable and pain free.
-Contact Karen if my health changes.
-I want to stay at Glentora.</p>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Next review date</label>
-        <input type="text" id="reviewDate" value="Every month or as required">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Triggers for earlier review</label>
-      <textarea id="triggers" rows="4">Change in DNACPR status.
+    <div class="form-group"><label class="required">Summary of agreed wishes</label><textarea id="s_agreedWishes" rows="5" placeholder="3 to 5 short statements capturing core wishes"></textarea></div>
+    <div class="form-group"><label>Next review date</label><input type="text" id="s_reviewDate" value="Every month or as required"></div>
+    <div class="form-group"><label>Triggers for earlier review</label><textarea id="s_triggers" rows="4">Change in DNACPR status.
 Hospital admission.
-Acute deterioration.
-Significant change in condition or capacity.</textarea>
-    </div>
-
+Acute deterioration.</textarea></div>
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goToStep(6)">Back</button>
-      <button class="btn btn-download" onclick="generateDoc()">Download as Word Document</button>
+      <button class="btn btn-secondary" onclick="goStep(6)">Back</button>
+      <button class="btn btn-download" onclick="downloadStandard()">Download as Word Document</button>
     </div>
   </div>
+
+  <!-- ============================================ -->
+  <!-- DEMENTIA ACP STEPS -->
+  <!-- ============================================ -->
+
+  <!-- D1: Resident Details -->
+  <div class="card hidden" id="d1">
+    <h2>Resident Details</h2>
+    <p class="subtitle">Basic information about the resident</p>
+    <div class="form-row">
+      <div class="form-group"><label class="required">Resident name</label><input type="text" id="d_residentName" placeholder="e.g. John Smith"></div>
+      <div class="form-group"><label>Preferred name</label><input type="text" id="d_preferredName" placeholder="e.g. John"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Date of birth</label><input type="text" id="d_dob" placeholder="e.g. 12/03/1940"></div>
+      <div class="form-group"><label>Unit / Room</label><input type="text" id="d_unitRoom" placeholder="e.g. Dementia Unit Room 6"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Named nurse / key worker</label><input type="text" id="d_namedNurse" placeholder="e.g. Gloria Affriye / Kirsty Austen"></div>
+      <div class="form-group"><label>Stage of dementia</label><input type="text" id="d_stageDementia" placeholder="e.g. Advanced Dementia"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-switch" onclick="switchType()">Switch ACP Type</button>
+      <button class="btn btn-example" onclick="loadDementiaExample()">Load Example</button>
+      <button class="btn btn-primary" onclick="goStep(2)">Next</button>
+    </div>
+  </div>
+
+  <!-- D2: Knowing the Person -->
+  <div class="card hidden" id="d2">
+    <h2>Knowing the Person</h2>
+    <p class="subtitle">Who this person is, their history, values, and what mattered before dementia</p>
+    <div class="form-group"><label>Life history and background</label><textarea id="d_lifeHistory" placeholder="Family, relationships, career, personality"></textarea></div>
+    <div class="form-group"><label>Values and beliefs</label><textarea id="d_valuesBeliefs" placeholder="What matters most. Faith, independence, family"></textarea></div>
+    <div class="form-group"><label>What mattered before dementia progressed</label><textarea id="d_beforeDementia" placeholder="Activities, routines, relationships that were important"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(1)">Back</button><button class="btn btn-primary" onclick="goStep(3)">Next</button></div>
+  </div>
+
+  <!-- D3: Comfort and Distress -->
+  <div class="card hidden" id="d3">
+    <h2>Comfort and Distress</h2>
+    <p class="subtitle">How to recognise when this person is comfortable or distressed</p>
+    <div class="form-group"><label>Signs of comfort</label><textarea id="d_signsComfort" placeholder="How do you know this person is settled?"></textarea></div>
+    <div class="form-group"><label>Signs of distress</label><textarea id="d_signsDistress" placeholder="What does distress look like?"></textarea></div>
+    <div class="form-group"><label>What helps reassure</label><textarea id="d_whatHelps" placeholder="What calms this person down?"></textarea></div>
+    <div class="form-group"><label>What should be avoided</label><textarea id="d_whatAvoid" placeholder="What makes things worse?"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(2)">Back</button><button class="btn btn-primary" onclick="goStep(4)">Next</button></div>
+  </div>
+
+  <!-- D4: Daily Care -->
+  <div class="card hidden" id="d4">
+    <h2>Daily Care Preferences</h2>
+    <p class="subtitle">How this person likes to be cared for day to day</p>
+    <div class="form-group"><label>Personal care approach</label><textarea id="d_personalCare" placeholder="How personal care should be delivered"></textarea></div>
+    <div class="form-group"><label>Food and drink preferences</label><textarea id="d_foodDrink" placeholder="Diet, preferences, texture, assistance needed"></textarea></div>
+    <div class="form-group"><label>Environment and sensory needs</label><textarea id="d_environment" placeholder="Noise, lighting, layout, stimulation level"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(3)">Back</button><button class="btn btn-primary" onclick="goStep(5)">Next</button></div>
+  </div>
+
+  <!-- D5: Health and Progression -->
+  <div class="card hidden" id="d5">
+    <h2>Health and Progression</h2>
+    <p class="subtitle">Current health, expected changes, and quality of life</p>
+    <div class="form-group"><label>Current health needs</label><textarea id="d_currentHealth" placeholder="Diagnoses, medications, current picture"></textarea></div>
+    <div class="form-group"><label>Expected progression</label><textarea id="d_expectedProgression" placeholder="What is likely to change?"></textarea></div>
+    <div class="form-group"><label>What does quality of life mean now?</label><textarea id="d_qualityOfLife" placeholder="What makes a good day?"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(4)">Back</button><button class="btn btn-primary" onclick="goStep(6)">Next</button></div>
+  </div>
+
+  <!-- D6: Anticipatory and Hospital -->
+  <div class="card hidden" id="d6">
+    <h2>Anticipatory and Hospital Decisions</h2>
+    <p class="subtitle">What to do if unwell, hospital views, escalation</p>
+    <div class="form-group"><label>Preferred approach if unwell</label><textarea id="d_approachUnwell" placeholder="GP review, treat in home, hospital?"></textarea></div>
+    <div class="form-group"><label>Comfort measures to prioritise</label><textarea id="d_comfortMeasures" placeholder="Pain relief, calm environment, dignity..."></textarea></div>
+    <div class="form-group"><label>Interventions to avoid</label><textarea id="d_interventionsAvoid" placeholder="What should NOT be done?"></textarea></div>
+    <div class="form-group"><label>Views on hospital admission</label><textarea id="d_hospitalViews" rows="3" placeholder="When is hospital acceptable?"></textarea></div>
+    <div class="form-group"><label>Escalation thresholds</label><textarea id="d_escalationThresholds" rows="3" placeholder="When should staff escalate urgently?"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(5)">Back</button><button class="btn btn-primary" onclick="goStep(7)">Next</button></div>
+  </div>
+
+  <!-- D7: CPR and End of Life -->
+  <div class="card hidden" id="d7">
+    <h2>CPR, Treatment and End of Life Care</h2>
+    <p class="subtitle">DNACPR, treatment, best-interest, comfort priorities</p>
+    <div class="form-row">
+      <div class="form-group"><label>DNACPR Status</label><select id="d_dnacpr"><option value="">Select...</option><option value="Yes">Yes - DNACPR in place</option><option value="No">No</option><option value="Not yet discussed">Not yet discussed</option></select></div>
+      <div class="form-group"><label>DNACPR Location</label><input type="text" id="d_dnacprLocation" placeholder="e.g. In file in duty room"></div>
+    </div>
+    <div class="form-group"><label>Treatment Escalation Plan</label><textarea id="d_treatmentPlan" rows="3" placeholder="Treat reversible conditions, focus on comfort..."></textarea></div>
+    <div class="form-group"><label>Best-interest summary</label><textarea id="d_bestInterest" rows="3" placeholder="Who was involved? Legal framework (POA, AWI Act)"></textarea></div>
+    <div class="form-group"><label>Comfort and end of life priorities</label><textarea id="d_comfortPriorities" placeholder="What matters most at end of life"></textarea></div>
+    <div class="form-group"><label>Preferred place of care</label><input type="text" id="d_preferredPlace" placeholder="e.g. Meadow View Care Home"></div>
+    <div class="form-group"><label>Spiritual or cultural wishes</label><textarea id="d_spiritualWishes" rows="2" placeholder="None expressed, or specific requirements"></textarea></div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goStep(6)">Back</button><button class="btn btn-primary" onclick="goStep(8)">Next</button></div>
+  </div>
+
+  <!-- D8: Agreed Plan -->
+  <div class="card hidden" id="d8">
+    <h2>Agreed Plan and Review</h2>
+    <p class="subtitle">Key priorities, review schedule, triggers</p>
+    <div class="form-group"><label>Key priorities for staff</label><textarea id="d_keyPriorities" rows="3" placeholder="Most important things for staff every day"></textarea></div>
+    <div class="form-group"><label>Review date</label><input type="text" id="d_reviewDate" value="Every month or when required"></div>
+    <div class="form-group"><label>Triggers for earlier review</label><textarea id="d_triggers" placeholder="Significant deterioration, change in DNACPR, amendment to ACP..."></textarea></div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(7)">Back</button>
+      <button class="btn btn-download" onclick="downloadDementia()">Download as Word Document</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
-let currentStep = 1;
-const totalSteps = 7;
+let acpType = null; // 'standard' or 'dementia'
+let currentStep = 0;
+const stepCounts = { standard: 7, dementia: 8 };
 
-function loadExample() {
-  document.getElementById('residentName').value = 'John Smith';
-  document.getElementById('preferredName').value = 'John';
-  document.getElementById('dob').value = '12/03/1941';
-  document.getElementById('roomNo').value = '7';
-  document.getElementById('homeName').value = 'Glentora Care Home, Andrews Avenue, Ayr';
-  document.getElementById('peopleInvolved').value = 'John Smith, Margaret Smith (wife, POA), Kirsty Baxter (Key Worker)';
-  document.getElementById('planDate').value = '01/03/2026';
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
 
-  document.getElementById('whatMatters').value = "Ma family is everythin tae me, especially ma wife Margaret. She comes in every day and I look forward tae seein her. I like ma routines, gettin up at ma own pace, havin ma breakfast, and watchin the football on the telly. I enjoy a blether wi the staff and I like folk that are straight wi me. I don't like bein fussed over but I appreciate folk that take the time tae talk tae me properly. Ma independence matters tae me, even the wee things like feedin maself and choosin what I want tae wear.";
-
-  document.getElementById('whatIUnderstand').value = "I know I've got vascular dementia and it's no gonnae get better. I've got COPD as well and ma breathin's no great. I've talked about all this wi Margaret and the nurse and I understand what's ahead. I have good days and bad days, and on the bad days I get confused and forget things. I know I need mair help now than I used tae.";
-
-  document.getElementById('futureWishes').value = "I want tae stay here at Glentora. This is ma home now and I'm comfortable here. I don't want tae go tae hospital unless there's nae other option. When the time comes, I want Margaret wi me and I want tae be kept comfortable and pain free. I don't want a fuss, just peace and quiet and the folk I know around me.";
-
-  document.getElementById('foodDrink').value = "I love ma food, especially mince and tatties, steak pie, and a good bowl of soup. I take ma tea wi milk and two sugars. I'm on a normal diet wi nae texture changes. I eat well most days but I sometimes forget tae drink enough so staff remind me. I don't like fish and I won't eat it.";
-
-  document.getElementById('personalCare').value = "I like a shower every mornin. I can wash ma face and hands maself but I need help wi everythin else. I use ma own soap, the green Palmolive bar, and ma own shampoo. I like tae be clean shaven every day. I can dress maself wi a bit of help, but don't pull ma arms up high because ma shoulders are stiff.";
-
-  document.getElementById('routines').value = "I like tae get up about 8 o'clock and have ma breakfast in the dinin room. I spend the mornin in the lounge watchin telly or havin a blether. Margaret visits after lunch most days and we sit in ma room. I like tae go tae bed about 9 o'clock after the news. I sleep awright most nights but sometimes I wake up confused and don't know where I am.";
-
-  document.getElementById('supportPrefs').value = "Talk tae me face on and don't shout at me frae across the room. I'm hard of hearin in ma left ear so come tae ma right side. If I'm confused, don't argue wi me, just talk calmly and give me time. I don't like too many folk around me at once. One person at a time when helpin me wi personal care.";
-
-  document.getElementById('treatmentViews').value = "I don't want tae go tae hospital if it can be helped. I'd rather be treated here where I know folk. If I get a chest infection, treat me here wi antibiotics. If things get really bad and there's nothin mair can be done, keep me comfortable and pain free and don't try tae keep me goin for the sake of it.";
-
-  document.getElementById('dnacpr').value = 'Yes';
-  document.getElementById('dnacprLocation').value = 'Duty room file';
-  document.getElementById('kis').value = 'Yes';
-  document.getElementById('acpLocation').value = 'Duty room file and electronic care plan';
-  document.getElementById('poaWelfare').value = 'Margaret Smith (wife)';
-  document.getElementById('poaFinancial').value = 'Margaret Smith (wife)';
-
-  document.getElementById('preferredPlace').value = "I want tae stay at Glentora. This is ma home now and I'm comfortable here. If ma health gets worse, I want tae be looked after here, not in hospital.";
-
-  document.getElementById('peopleInvolveCare').value = "Margaret Smith (wife, POA welfare and financial) — contact first for all decisions.\nDr Campbell at Riverside Medical Centre (GP).\nKirsty Baxter (Key Worker).\nBoots, High Street, Ayr (pharmacy).";
-
-  document.getElementById('contacts').value = "Next of kin: Margaret Smith (wife) — 07700 900123\nGP: Dr Campbell, Riverside Medical Centre — 01292 123456\nPharmacy: Boots, High Street, Ayr — 01292 654321\nKey Worker: Kirsty Baxter";
-
-  document.getElementById('agreedWishes').value = "Respect my choices and keep me informed.\nKeep me comfortable and pain free.\nContact Margaret if my health changes.\nI want to stay at Glentora.\nNo hospital admission unless absolutely necessary.";
-
-  document.getElementById('reviewDate').value = 'Every month or as required';
-  document.getElementById('triggers').value = "Change in DNACPR status.\nHospital admission.\nAcute deterioration.\nSignificant change in condition or capacity.";
-
-  goToStep(1);
-  alert('Example loaded for John Smith. Click through each step to see the data, then click Download as Word Document on Step 7.');
+function selectType(type) {
+  acpType = type;
+  document.getElementById('typeChooser').classList.add('hidden');
+  document.getElementById('stepIndicator').classList.remove('hidden');
+  const header = document.getElementById('appHeader');
+  if (type === 'dementia') {
+    header.classList.add('dementia');
+    document.body.classList.add('dementia-mode');
+    document.getElementById('headerTitle').textContent = 'Advanced Dementia ACP Generator';
+    document.getElementById('headerSubtitle').textContent = 'Best-interest decision-making for people living with advanced dementia';
+  } else {
+    header.classList.remove('dementia');
+    document.body.classList.remove('dementia-mode');
+    document.getElementById('headerTitle').textContent = 'ACP Generator';
+    document.getElementById('headerSubtitle').textContent = 'Future Care and Anticipatory Care Planning';
+  }
+  goStep(1);
 }
 
-function goToStep(step) {
+function switchType() {
+  // Hide all steps
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('stepIndicator').classList.add('hidden');
+  document.getElementById('typeChooser').classList.remove('hidden');
+  document.getElementById('appHeader').classList.remove('dementia');
+  document.body.classList.remove('dementia-mode');
+  document.getElementById('headerTitle').textContent = 'ACP Generator';
+  document.getElementById('headerSubtitle').textContent = 'Future Care and Anticipatory Care Planning';
+  acpType = null;
+  currentStep = 0;
+}
+
+function goStep(n) {
   // Hide all cards
-  document.querySelectorAll('.step-card').forEach(c => c.classList.add('hidden'));
-  // Show target
-  document.querySelector(`.step-card[data-step="${step}"]`).classList.remove('hidden');
-
-  // Update dots
-  document.querySelectorAll('.step-dot').forEach(d => {
-    const s = parseInt(d.dataset.step);
-    d.classList.remove('active', 'completed');
-    if (s < step) d.classList.add('completed');
-    if (s === step) d.classList.add('active');
-  });
-
-  currentStep = step;
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  // Show the right card
+  const prefix = acpType === 'standard' ? 's' : 'd';
+  const el = document.getElementById(prefix + n);
+  if (el) el.classList.remove('hidden');
+  currentStep = n;
+  updateDots();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function val(id) {
-  const el = document.getElementById(id);
-  if (!el) return '';
-  return el.value.trim() || '';
+function updateDots() {
+  const total = stepCounts[acpType];
+  const container = document.getElementById('stepIndicator');
+  container.innerHTML = '';
+  for (let i = 1; i <= total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'step-dot' + (i === currentStep ? ' active' : '') + (i < currentStep ? ' completed' : '');
+    dot.textContent = i;
+    dot.onclick = () => goStep(i);
+    container.appendChild(dot);
+  }
 }
 
-function esc(text) {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
-}
-
-function generateDoc() {
-  const residentName = val('residentName') || '[Resident name]';
-  const preferredName = val('preferredName') || '';
-  const dob = val('dob') || '';
-  const roomNo = val('roomNo') || '';
-  const homeName = val('homeName') || '';
-  const peopleInvolved = val('peopleInvolved') || '';
-  const planDate = val('planDate') || '';
-  const whatMatters = val('whatMatters') || '[Not yet completed]';
-  const whatIUnderstand = val('whatIUnderstand') || '[Not yet completed]';
-  const futureWishes = val('futureWishes') || '[Not yet completed]';
-  const foodDrink = val('foodDrink') || '[Not yet completed]';
-  const personalCare = val('personalCare') || '[Not yet completed]';
-  const routines = val('routines') || '[Not yet completed]';
-  const supportPrefs = val('supportPrefs') || '[Not yet completed]';
-  const treatmentViews = val('treatmentViews') || '[Not yet completed]';
-  const dnacpr = val('dnacpr') || '[Not yet discussed]';
-  const dnacprLocation = val('dnacprLocation') || '';
-  const kis = val('kis') || '[Not yet discussed]';
-  const acpLocation = val('acpLocation') || '';
-  const poaWelfare = val('poaWelfare') || '';
-  const poaFinancial = val('poaFinancial') || '';
-  const preferredPlace = val('preferredPlace') || '[Not yet completed]';
-  const peopleInvolveCare = val('peopleInvolveCare') || '[Not yet completed]';
-  const contacts = val('contacts') || '';
-  const agreedWishes = val('agreedWishes') || '[Not yet completed]';
-  const reviewDate = val('reviewDate') || 'Every month or as required';
-  const triggers = val('triggers') || 'Change in DNACPR status.\nHospital admission.\nAcute deterioration.';
-
-  const html = `
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-      xmlns:w="urn:schemas-microsoft-com:office:word"
-      xmlns="http://www.w3.org/TR/REC-html40">
-<head>
-<meta charset="UTF-8">
-<style>
-  @page {
-    size: A4 portrait;
-    margin: 1.5cm 2cm 1.5cm 2cm;
-  }
-  body {
-    font-family: 'Calibri', 'Segoe UI', sans-serif;
-    font-size: 11pt;
-    color: #000;
-    line-height: 1.4;
-  }
-  h1 {
-    color: #0070C0;
-    font-size: 16pt;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 2pt;
-    border-bottom: 2px solid #0070C0;
-    padding-bottom: 6pt;
-  }
-  .sub-header {
-    font-size: 8pt;
-    color: #666;
-    text-align: center;
-    margin-bottom: 12pt;
-    font-style: italic;
-  }
-  h2 {
-    color: #0070C0;
-    font-size: 12pt;
-    font-weight: bold;
-    margin-top: 10pt;
-    margin-bottom: 4pt;
-    border-bottom: 1px solid #0070C0;
-    padding-bottom: 2pt;
-  }
-  h3 {
-    color: #0070C0;
-    font-size: 11pt;
-    font-weight: bold;
-    margin-top: 8pt;
-    margin-bottom: 3pt;
-  }
-  table.details {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10pt;
-  }
-  table.details td {
-    border: 1px solid #999;
-    padding: 5pt 8pt;
-    font-size: 10pt;
-    vertical-align: top;
-  }
-  table.details td.label {
-    color: #0070C0;
-    font-weight: bold;
-    width: 25%;
-    background: #f5f8fc;
-  }
-  .content {
-    padding: 4pt 0;
-    font-size: 11pt;
-    line-height: 1.5;
-  }
-  .section-box {
-    border: 1px solid #ccc;
-    padding: 8pt 10pt;
-    margin-bottom: 8pt;
-    border-radius: 2pt;
-  }
-  table.status {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 6pt 0 10pt 0;
-  }
-  table.status td {
-    border: 1px solid #999;
-    padding: 4pt 8pt;
-    font-size: 10pt;
-  }
-  table.status td.label {
-    color: #0070C0;
-    font-weight: bold;
-    background: #f5f8fc;
-    width: 30%;
-  }
-  .page-break {
-    page-break-before: auto;
-  }
-  .agreed-box {
-    border: 2px solid #0070C0;
-    padding: 8pt;
-    margin: 4pt 0 8pt 0;
-    background: #f5f8fc;
-  }
-</style>
-</head>
-<body>
-
+// ===== STANDARD DOWNLOAD =====
+function downloadStandard() {
+  const r = (id) => val(id) || '[Not yet completed]';
+  const name = val('s_residentName') || '[Resident Name]';
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><style>
+@page{size:A4 portrait;margin:1.5cm 2cm}body{font-family:'Calibri',sans-serif;font-size:11pt;color:#000;line-height:1.4}
+h1{color:#0070C0;font-size:15pt;font-weight:bold;text-align:center;margin-bottom:2pt;border-bottom:2px solid #0070C0;padding-bottom:4pt}
+.sub{font-size:8pt;color:#666;text-align:center;margin-bottom:10pt;font-style:italic}
+h2{color:#0070C0;font-size:12pt;font-weight:bold;margin-top:10pt;margin-bottom:4pt;border-bottom:1px solid #0070C0;padding-bottom:2pt}
+h3{color:#0070C0;font-size:11pt;font-weight:bold;margin-top:8pt;margin-bottom:3pt}
+table.d{width:100%;border-collapse:collapse;margin-bottom:8pt}table.d td{border:1px solid #999;padding:4pt 6pt;font-size:10pt;vertical-align:top}
+table.d td.l{color:#0070C0;font-weight:bold;width:25%;background:#f5f8fc}
+.box{border:1px solid #ccc;padding:6pt 8pt;margin-bottom:6pt;font-size:10pt;line-height:1.4}
+.abox{border:2px solid #0070C0;padding:8pt;margin:4pt 0 8pt;background:#f5f8fc}
+</style></head><body>
 <h1>Future Care and Anticipatory Care Planning (ACP)</h1>
-<p class="sub-header">This form should be reviewed regularly to ensure it is relevant, current and updated as required.<br>
-Information should be reflected in relevant care plans and electronic systems.</p>
-
-<table class="details">
-  <tr>
-    <td class="label">Resident name:</td>
-    <td>${esc(residentName)}</td>
-    <td class="label">Preferred name:</td>
-    <td>${esc(preferredName)}</td>
-  </tr>
-  <tr>
-    <td class="label">Date of birth:</td>
-    <td>${esc(dob)}</td>
-    <td class="label">Room no:</td>
-    <td>${esc(roomNo)}</td>
-  </tr>
-  <tr>
-    <td class="label">Home:</td>
-    <td colspan="3">${esc(homeName)}</td>
-  </tr>
-  <tr>
-    <td class="label">People involved:</td>
-    <td colspan="2">${esc(peopleInvolved)}</td>
-    <td><b style="color:#0070C0">Date:</b> ${esc(planDate)}</td>
-  </tr>
-</table>
-
-<h2>What Matters to Me</h2>
-<div class="section-box">
-  <div class="content">${esc(whatMatters)}</div>
-</div>
-
-<h2>What I Understand About My Condition and My Future</h2>
-<div class="section-box">
-  <div class="content">${esc(whatIUnderstand)}</div>
-</div>
-
-<h2>My Wishes and Preferences for My Future Care and Where I Would Like to Spend the Last Days of My Life</h2>
-<div class="section-box">
-  <div class="content">${esc(futureWishes)}</div>
-</div>
-
-<div class="page-break"></div>
-
-<h1>Wishes for Everyday Care</h1>
-
-<h3>Food and drink</h3>
-<div class="section-box">
-  <div class="content">${esc(foodDrink)}</div>
-</div>
-
-<h3>Personal care</h3>
-<div class="section-box">
-  <div class="content">${esc(personalCare)}</div>
-</div>
-
-<h3>My routines and daily life</h3>
-<div class="section-box">
-  <div class="content">${esc(routines)}</div>
-</div>
-
-<h3>How I want to be supported</h3>
-<div class="section-box">
-  <div class="content">${esc(supportPrefs)}</div>
-</div>
-
-<h3>Important contacts</h3>
-<div class="section-box">
-  <div class="content">${esc(contacts)}</div>
-</div>
-
-<div class="page-break"></div>
-
-<h2>Views on Treatment and Medical Decisions</h2>
-<div class="section-box">
-  <div class="content">${esc(treatmentViews)}</div>
-</div>
-
+<p class="sub">This form should be reviewed regularly to ensure it is relevant, current and updated as required.</p>
+<table class="d"><tr><td class="l">Resident name:</td><td>${esc(name)}</td><td class="l">Preferred name:</td><td>${esc(r('s_preferredName'))}</td></tr>
+<tr><td class="l">Date of birth:</td><td>${esc(r('s_dob'))}</td><td class="l">Room no:</td><td>${esc(r('s_roomNo'))}</td></tr>
+<tr><td class="l">Home:</td><td colspan="3">${esc(r('s_homeName'))}</td></tr>
+<tr><td class="l">People involved:</td><td colspan="2">${esc(r('s_peopleInvolved'))}</td><td><b style="color:#0070C0">Date:</b> ${esc(r('s_planDate'))}</td></tr></table>
+<h2>What Matters to Me</h2><div class="box">${esc(r('s_whatMatters'))}</div>
+<h2>What I Understand About My Condition and My Future</h2><div class="box">${esc(r('s_whatIUnderstand'))}</div>
+<h2>My Wishes and Preferences for My Future Care and Where I Would Like to Spend the Last Days of My Life</h2><div class="box">${esc(r('s_futureWishes'))}</div>
+<h2>Wishes for Everyday Care</h2>
+<h3>Food and drink</h3><div class="box">${esc(r('s_foodDrink'))}</div>
+<h3>Personal care</h3><div class="box">${esc(r('s_personalCare'))}</div>
+<h3>My routines and daily life</h3><div class="box">${esc(r('s_routines'))}</div>
+<h3>How I want to be supported</h3><div class="box">${esc(r('s_supportPrefs'))}</div>
+<h3>Important contacts</h3><div class="box">${esc(r('s_contacts'))}</div>
+<h2>Views on Treatment and Medical Decisions</h2><div class="box">${esc(r('s_treatmentViews'))}</div>
 <h2>CPR and Treatment Preferences</h2>
-<table class="status">
-  <tr>
-    <td class="label">DNACPR in place:</td>
-    <td>${esc(dnacpr)}</td>
-    <td class="label">DNACPR location:</td>
-    <td>${esc(dnacprLocation)}</td>
-  </tr>
-  <tr>
-    <td class="label">KIS form on file:</td>
-    <td>${esc(kis)}</td>
-    <td class="label">ACP location:</td>
-    <td>${esc(acpLocation)}</td>
-  </tr>
-  <tr>
-    <td class="label">POA (Welfare):</td>
-    <td>${esc(poaWelfare)}</td>
-    <td class="label">POA (Financial):</td>
-    <td>${esc(poaFinancial)}</td>
-  </tr>
-</table>
+<table class="d"><tr><td class="l">DNACPR in place:</td><td>${esc(r('s_dnacpr'))}</td><td class="l">DNACPR location:</td><td>${esc(r('s_dnacprLocation'))}</td></tr>
+<tr><td class="l">KIS form:</td><td>${esc(r('s_kis'))}</td><td class="l">ACP location:</td><td>${esc(r('s_acpLocation'))}</td></tr>
+<tr><td class="l">POA (Welfare):</td><td>${esc(r('s_poaWelfare'))}</td><td class="l">POA (Financial):</td><td>${esc(r('s_poaFinancial'))}</td></tr></table>
+<h2>Preferred Place of Care</h2><div class="box">${esc(r('s_preferredPlace'))}</div>
+<h2>People I Would Like Involved</h2><div class="box">${esc(r('s_peopleInvolveCare'))}</div>
+<h2>Summary of Agreed Wishes</h2><div class="abox">${esc(r('s_agreedWishes'))}</div>
+<h2>Next Review Date</h2><div class="box">${esc(r('s_reviewDate'))}</div>
+<h2>Triggers for Earlier Review</h2><div class="box">${esc(r('s_triggers'))}</div>
+<table class="d" style="margin-top:14pt"><tr><td class="l">Resident / Representative signature:</td><td style="height:25pt"></td><td class="l">Date:</td><td style="width:18%"></td></tr>
+<tr><td class="l">Staff signature:</td><td></td><td class="l">Date:</td><td></td></tr></table>
+</body></html>`;
+  downloadFile(html, name + ' - ACP.doc');
+}
 
-<h2>Preferred Place of Care</h2>
-<div class="section-box">
-  <div class="content">${esc(preferredPlace)}</div>
-</div>
+// ===== DEMENTIA DOWNLOAD =====
+function downloadDementia() {
+  const r = (id) => val(id) || '[Not yet completed]';
+  const name = val('d_residentName') || '[Resident Name]';
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><style>
+@page{size:A4 portrait;margin:1.5cm 2cm}body{font-family:'Calibri',sans-serif;font-size:11pt;color:#000;line-height:1.4}
+h1{color:#0070C0;font-size:15pt;font-weight:bold;text-align:center;margin-bottom:2pt;border-bottom:2px solid #0070C0;padding-bottom:4pt}
+.sub{font-size:8pt;color:#666;text-align:center;margin-bottom:10pt;font-style:italic}
+h2{color:#0070C0;font-size:12pt;font-weight:bold;margin-top:10pt;margin-bottom:4pt;border-bottom:1px solid #0070C0;padding-bottom:2pt}
+h3{color:#0070C0;font-size:10pt;font-weight:bold;margin-top:6pt;margin-bottom:2pt}
+table.d{width:100%;border-collapse:collapse;margin-bottom:8pt}table.d td{border:1px solid #999;padding:4pt 6pt;font-size:10pt;vertical-align:top}
+table.d td.l{color:#0070C0;font-weight:bold;width:28%;background:#f5f8fc}
+.box{border:1px solid #ccc;padding:6pt 8pt;margin-bottom:6pt;font-size:10pt;line-height:1.4}
+</style></head><body>
+<h1>Advanced Dementia \u2013 Future Care & Anticipatory Care Planning (ACP)</h1>
+<p class="sub">This document supports best-interest decision-making for people living with advanced dementia.<br>It focuses on comfort, dignity, and quality of life.</p>
+<table class="d"><tr><td class="l">Resident name:</td><td>${esc(name)}</td><td class="l">Preferred name:</td><td>${esc(r('d_preferredName'))}</td></tr>
+<tr><td class="l">Date of birth:</td><td>${esc(r('d_dob'))}</td><td class="l">Unit / Room:</td><td>${esc(r('d_unitRoom'))}</td></tr>
+<tr><td class="l">Named nurse / key worker:</td><td colspan="3">${esc(r('d_namedNurse'))}</td></tr>
+<tr><td class="l">Stage of dementia:</td><td colspan="3">${esc(r('d_stageDementia'))}</td></tr></table>
+<h2>Knowing the Person</h2>
+<h3>Life history and background</h3><div class="box">${esc(r('d_lifeHistory'))}</div>
+<h3>Values and beliefs</h3><div class="box">${esc(r('d_valuesBeliefs'))}</div>
+<h3>What mattered before dementia progressed</h3><div class="box">${esc(r('d_beforeDementia'))}</div>
+<h2>Comfort and Distress</h2>
+<h3>Signs of comfort</h3><div class="box">${esc(r('d_signsComfort'))}</div>
+<h3>Signs of distress</h3><div class="box">${esc(r('d_signsDistress'))}</div>
+<h3>What helps reassure</h3><div class="box">${esc(r('d_whatHelps'))}</div>
+<h3>What should be avoided</h3><div class="box">${esc(r('d_whatAvoid'))}</div>
+<h2>Daily Care Preferences</h2>
+<h3>Personal care approach</h3><div class="box">${esc(r('d_personalCare'))}</div>
+<h3>Food and drink preferences</h3><div class="box">${esc(r('d_foodDrink'))}</div>
+<h3>Environment and sensory needs</h3><div class="box">${esc(r('d_environment'))}</div>
+<h2>Health and Progression</h2>
+<h3>Current health needs</h3><div class="box">${esc(r('d_currentHealth'))}</div>
+<h3>Expected progression</h3><div class="box">${esc(r('d_expectedProgression'))}</div>
+<h3>What does quality of life mean now?</h3><div class="box">${esc(r('d_qualityOfLife'))}</div>
+<h2>Anticipatory Decisions</h2>
+<h3>Preferred approach if unwell</h3><div class="box">${esc(r('d_approachUnwell'))}</div>
+<h3>Comfort measures to prioritise</h3><div class="box">${esc(r('d_comfortMeasures'))}</div>
+<h3>Interventions to avoid</h3><div class="box">${esc(r('d_interventionsAvoid'))}</div>
+<h2>Hospital and Emergency Care</h2>
+<h3>Views on hospital admission</h3><div class="box">${esc(r('d_hospitalViews'))}</div>
+<h3>Escalation thresholds</h3><div class="box">${esc(r('d_escalationThresholds'))}</div>
+<h2>CPR and Treatment Escalation</h2>
+<table class="d"><tr><td class="l">DNACPR status:</td><td>${esc(r('d_dnacpr'))}</td><td class="l">DNACPR location:</td><td>${esc(r('d_dnacprLocation'))}</td></tr></table>
+<h3>Treatment Escalation Plan</h3><div class="box">${esc(r('d_treatmentPlan'))}</div>
+<h3>Best-interest summary</h3><div class="box">${esc(r('d_bestInterest'))}</div>
+<h2>Comfort and End of Life Care</h2>
+<h3>Comfort priorities</h3><div class="box">${esc(r('d_comfortPriorities'))}</div>
+<h3>Preferred place of care</h3><div class="box">${esc(r('d_preferredPlace'))}</div>
+<h3>Spiritual or cultural wishes</h3><div class="box">${esc(r('d_spiritualWishes'))}</div>
+<h2>Agreed Plan and Review</h2>
+<h3>Key priorities for staff</h3><div class="box">${esc(r('d_keyPriorities'))}</div>
+<table class="d" style="margin-top:6pt"><tr><td class="l">Review date:</td><td>${esc(r('d_reviewDate'))}</td></tr></table>
+<h3>Triggers for review</h3><div class="box">${esc(r('d_triggers'))}</div>
+<table class="d" style="margin-top:14pt"><tr><td class="l">Resident / Representative signature:</td><td style="height:25pt"></td><td class="l">Date:</td><td style="width:18%"></td></tr>
+<tr><td class="l">Staff signature:</td><td></td><td class="l">Date:</td><td></td></tr></table>
+</body></html>`;
+  downloadFile(html, name + ' - Dementia ACP.doc');
+}
 
-<h2>People I Would Like Involved in My Care and Decisions</h2>
-<div class="section-box">
-  <div class="content">${esc(peopleInvolveCare)}</div>
-</div>
-
-<div class="page-break"></div>
-
-<h1>Agreed Plan and Review</h1>
-
-<h2>Summary of Agreed Wishes</h2>
-<div class="agreed-box">
-  <div class="content">${esc(agreedWishes)}</div>
-</div>
-
-<h2>Next Review Date</h2>
-<div class="section-box">
-  <div class="content">${esc(reviewDate)}</div>
-</div>
-
-<h2>Triggers for Earlier Review</h2>
-<div class="section-box">
-  <div class="content">${esc(triggers)}</div>
-</div>
-
-<table class="details" style="margin-top: 14pt;">
-  <tr>
-    <td class="label">Resident / Representative signature:</td>
-    <td style="height:30pt"></td>
-    <td class="label">Date:</td>
-    <td style="width:20%"></td>
-  </tr>
-  <tr>
-    <td class="label">Staff signature:</td>
-    <td></td>
-    <td class="label">Date:</td>
-    <td></td>
-  </tr>
-</table>
-
-</body>
-</html>`;
-
+function downloadFile(html, filename) {
   const blob = new Blob([html], { type: 'application/msword' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = residentName.replace(/[^a-zA-Z0-9 ]/g, '') + ' - ACP.doc';
+  a.download = filename.replace(/[^a-zA-Z0-9 \-\.]/g, '');
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// ===== EXAMPLES =====
+function loadStandardExample() {
+  document.getElementById('s_residentName').value = 'John Smith';
+  document.getElementById('s_preferredName').value = 'John';
+  document.getElementById('s_dob').value = '12/03/1941';
+  document.getElementById('s_roomNo').value = '7';
+  document.getElementById('s_homeName').value = 'Glentora Care Home, Andrews Avenue, Ayr';
+  document.getElementById('s_peopleInvolved').value = 'John Smith, Margaret Smith (wife, POA), Kirsty Baxter (Key Worker)';
+  document.getElementById('s_planDate').value = '01/03/2026';
+  document.getElementById('s_whatMatters').value = "Ma family is everythin tae me, especially ma wife Margaret. She comes in every day and I look forward tae seein her. I like ma routines, gettin up at ma own pace, havin ma breakfast, and watchin the football on the telly. I enjoy a blether wi the staff and I like folk that are straight wi me.";
+  document.getElementById('s_whatIUnderstand').value = "I know I've got vascular dementia and it's no gonnae get better. I've got COPD as well and ma breathin's no great. I've talked about all this wi Margaret and the nurse and I understand what's ahead.";
+  document.getElementById('s_futureWishes').value = "I want tae stay here at Glentora. This is ma home now and I'm comfortable here. I don't want tae go tae hospital unless there's nae other option. When the time comes, I want Margaret wi me and I want tae be kept comfortable and pain free.";
+  document.getElementById('s_foodDrink').value = "I love ma food, especially mince and tatties, steak pie, and a good bowl of soup. I take ma tea wi milk and two sugars. I'm on a normal diet wi nae texture changes. I don't like fish and I won't eat it.";
+  document.getElementById('s_personalCare').value = "I like a shower every mornin. I can wash ma face and hands maself but I need help wi everythin else. I use ma own soap, the green Palmolive bar, and ma own shampoo. I like tae be clean shaven every day.";
+  document.getElementById('s_routines').value = "I like tae get up about 8 o'clock and have ma breakfast in the dinin room. Margaret visits after lunch most days and we sit in ma room. I like tae go tae bed about 9 o'clock after the news.";
+  document.getElementById('s_supportPrefs').value = "Talk tae me face on. I'm hard of hearin in ma left ear so come tae ma right side. If I'm confused, talk calmly and give me time. One person at a time when helpin me wi personal care.";
+  document.getElementById('s_treatmentViews').value = "I'd rather be treated here where I know folk. If I get a chest infection, treat me here. If things get really bad, keep me comfortable and pain free.";
+  document.getElementById('s_dnacpr').value = 'Yes';
+  document.getElementById('s_dnacprLocation').value = 'Duty room file';
+  document.getElementById('s_kis').value = 'Yes';
+  document.getElementById('s_acpLocation').value = 'Duty room file and electronic care plan';
+  document.getElementById('s_poaWelfare').value = 'Margaret Smith (wife)';
+  document.getElementById('s_poaFinancial').value = 'Margaret Smith (wife)';
+  document.getElementById('s_preferredPlace').value = "I want tae stay at Glentora. This is ma home now.";
+  document.getElementById('s_peopleInvolveCare').value = "Margaret Smith (wife, POA welfare and financial).\nDr Campbell at Riverside Medical Centre (GP).\nKirsty Baxter (Key Worker).";
+  document.getElementById('s_contacts').value = "Next of kin: Margaret Smith (wife)\nGP: Dr Campbell, Riverside Medical Centre\nPharmacy: Boots, High Street, Ayr\nKey Worker: Kirsty Baxter";
+  document.getElementById('s_agreedWishes').value = "Respect my choices and keep me informed.\nKeep me comfortable and pain free.\nContact Margaret if my health changes.\nI want to stay at Glentora.";
+}
+
+function loadDementiaExample() {
+  document.getElementById('d_residentName').value = 'John Smith';
+  document.getElementById('d_preferredName').value = 'John';
+  document.getElementById('d_dob').value = '15/06/1938';
+  document.getElementById('d_unitRoom').value = 'Dementia Unit Room 4';
+  document.getElementById('d_namedNurse').value = 'Sarah Mitchell / Karen Douglas';
+  document.getElementById('d_stageDementia').value = 'Advanced Dementia';
+  document.getElementById('d_lifeHistory').value = 'John is a private person and has been all his life. He has close relationships with his two daughters Margaret and Susan. He worked as a joiner for over 40 years. He enjoys talking about football and his time in the army.';
+  document.getElementById('d_valuesBeliefs').value = 'John values privacy, dignity and comfort. He has always been a quiet, independent man who preferred his own company to crowds.';
+  document.getElementById('d_beforeDementia').value = 'Being independent, going for walks, watching football, doing crosswords, spending time with his daughters at weekends.';
+  document.getElementById('d_signsComfort').value = 'Calm facial expressions, sitting quietly with others at meals, engaging in conversation about football, without agitation.';
+  document.getElementById('d_signsDistress').value = 'Repetitive calling out, pulling at his clothes, trying to get up without support, increased restlessness in the late afternoon.';
+  document.getElementById('d_whatHelps').value = 'Calm tone, slow approach, offer a cup of tea first, familiar faces, talking about football or his joinery work, quiet environment, Namaste sessions.';
+  document.getElementById('d_whatAvoid').value = 'Approaching from behind, loud or busy environments, multiple instructions at once, unfamiliar staff without introduction.';
+  document.getElementById('d_personalCare').value = 'One to one calm unhurried support. Clear short explanations of each step. Shower preferred. Re-offer care later if refused.';
+  document.getElementById('d_foodDrink').value = 'Normal diet and fluids. Sweet foods preferred. Cup of tea with milk and one sugar. Eats well at breakfast, appetite dips at teatime.';
+  document.getElementById('d_environment').value = 'Clutter free environment, consistent furniture positioning, low stimulation at night. Benefits from Namaste sessions in the afternoon.';
+  document.getElementById('d_currentHealth').value = 'Advanced dementia with sundowning. Managed with Lorazepam 0.5mg PRN. Mobility declining, uses zimmer frame with one staff. DNACPR in place.';
+  document.getElementById('d_expectedProgression').value = 'Cognitive decline likely to continue. Increased confusion and possible further reduction in mobility and insight over time.';
+  document.getElementById('d_qualityOfLife').value = 'Feeling safe, being calm, having daughters visit, familiar surroundings, sweet treats and cups of tea, conversations about football.';
+  document.getElementById('d_approachUnwell').value = 'Assessment for reversible causes. GP review promptly. Hospital only if clinically appropriate and recovery likely.';
+  document.getElementById('d_comfortMeasures').value = 'Pain relief, calm environment, dignity, familiar staff, reassurance, mouth care, skin care.';
+  document.getElementById('d_interventionsAvoid').value = 'Unnecessary distressing transfers to hospital. Invasive procedures unlikely to benefit. Overstimulation.';
+  document.getElementById('d_hospitalViews').value = 'Acceptable if condition is reversible and recovery likely. Otherwise treat in care home with comfort focus.';
+  document.getElementById('d_escalationThresholds').value = 'Rapid deterioration, unresponsive state, uncontrolled pain, suspected infection, repeated falls with injury.';
+  document.getElementById('d_dnacpr').value = 'Yes';
+  document.getElementById('d_dnacprLocation').value = 'Original form kept in file in duty room';
+  document.getElementById('d_treatmentPlan').value = 'Treat reversible conditions. Focus on comfort. If deterioration reflects advanced disease progression, prioritise comfort and dignity.';
+  document.getElementById('d_bestInterest').value = 'Decisions made in consultation with daughters under Power of Attorney (Welfare). Best-interest framework followed in line with Adults with Incapacity Act.';
+  document.getElementById('d_comfortPriorities').value = 'Remain at Meadow View. Daughters present. Calm environment. Dignity. Symptom control. Gentle care. Avoid unnecessary hospital admission.';
+  document.getElementById('d_preferredPlace').value = 'Meadow View Care Home';
+  document.getElementById('d_spiritualWishes').value = 'None expressed.';
+  document.getElementById('d_keyPriorities').value = 'Maintain comfort and dignity. Encourage nutrition and fluids. Support independence where possible.';
+  document.getElementById('d_reviewDate').value = 'Every month or when required';
+  document.getElementById('d_triggers').value = 'Significant deterioration in cognition, mobility or awareness.\nChange in DNACPR status.\nAmendment to ACP.\nMajor clinical review.';
 }
 </script>
 
