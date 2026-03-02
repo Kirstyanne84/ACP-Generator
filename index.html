@@ -89,6 +89,26 @@
 
   .hidden { display: none !important; }
   .required::after { content: ' *'; color: #dc3545; }
+
+  .btn-paste { background: #0070C0; color: white; width: 100%; padding: 14px; font-size: 16px; margin-bottom: 12px; }
+  .btn-paste:hover { background: #005a9e; }
+  body.dementia-mode .btn-paste { background: #6a1b9a; }
+  body.dementia-mode .btn-paste:hover { background: #4a148c; }
+
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); z-index: 1000; display: flex;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal {
+    background: white; border-radius: 12px; padding: 28px; width: 100%;
+    max-width: 700px; max-height: 90vh; overflow-y: auto;
+  }
+  .modal h2 { color: #0070C0; font-size: 20px; margin-bottom: 8px; border: none; }
+  body.dementia-mode .modal h2 { color: #6a1b9a; }
+  .modal p { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .modal textarea { width: 100%; min-height: 300px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; }
+  .modal .btn-row { margin-top: 16px; }
 </style>
 </head>
 <body>
@@ -127,6 +147,7 @@
   <div class="card hidden" id="s1">
     <h2>Resident Details</h2>
     <p class="subtitle">Basic information about the resident</p>
+    <button class="btn btn-paste" onclick="openPasteModal('standard')">Paste from Claude</button>
     <div class="form-row">
       <div class="form-group"><label class="required">Resident name</label><input type="text" id="s_residentName" placeholder="e.g. David McLeod"></div>
       <div class="form-group"><label>Preferred name</label><input type="text" id="s_preferredName" placeholder="e.g. David"></div>
@@ -248,6 +269,7 @@ Acute deterioration.</textarea></div>
   <div class="card hidden" id="d1">
     <h2>Resident Details</h2>
     <p class="subtitle">Basic information about the resident</p>
+    <button class="btn btn-paste" onclick="openPasteModal('dementia')">Paste from Claude</button>
     <div class="form-row">
       <div class="form-group"><label class="required">Resident name</label><input type="text" id="d_residentName" placeholder="e.g. John Smith"></div>
       <div class="form-group"><label>Preferred name</label><input type="text" id="d_preferredName" placeholder="e.g. John"></div>
@@ -350,10 +372,24 @@ Acute deterioration.</textarea></div>
     </div>
   </div>
 
+  <!-- PASTE MODAL -->
+  <div class="modal-overlay hidden" id="pasteModal">
+    <div class="modal">
+      <h2>Paste from Claude</h2>
+      <p>Copy the ACP output from Claude (the F command) and paste it all below. All fields will be filled automatically.</p>
+      <textarea id="pasteArea" placeholder="Paste Claude's ACP output here..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closePasteModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="parsePaste()">Fill All Fields</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 let acpType = null; // 'standard' or 'dementia'
+let pasteTarget = 'standard';
 let currentStep = 0;
 const stepCounts = { standard: 9, dementia: 8 };
 
@@ -552,6 +588,133 @@ function downloadFile(html, filename) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// ===== PASTE FROM CLAUDE =====
+function openPasteModal(type) {
+  pasteTarget = type;
+  document.getElementById('pasteArea').value = '';
+  document.getElementById('pasteModal').classList.remove('hidden');
+}
+function closePasteModal() {
+  document.getElementById('pasteModal').classList.add('hidden');
+}
+
+function parsePaste() {
+  const text = document.getElementById('pasteArea').value;
+  if (!text.trim()) return;
+
+  // Extract field value: looks for **LABEL:** or LABEL: followed by content until next label
+  function getField(label) {
+    // Try bold format first: **LABEL:** content
+    const boldRe = new RegExp('\\*\\*' + label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ':\\*\\*\\s*([\\s\\S]*?)(?=\\n\\*\\*[A-Z]|$)', 'i');
+    let m = text.match(boldRe);
+    if (m) return m[1].trim();
+    // Try plain format: LABEL: content
+    const plainRe = new RegExp('^' + label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ':\\s*([\\s\\S]*?)(?=\\n[A-Z][A-Z ]+:|$)', 'im');
+    m = text.match(plainRe);
+    if (m) return m[1].trim();
+    return '';
+  }
+
+  function setVal(id, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.value = value;
+  }
+
+  function setSelect(id, value) {
+    const el = document.getElementById(id);
+    if (!el || !value) return;
+    const lower = value.toLowerCase();
+    for (const opt of el.options) {
+      if (opt.value.toLowerCase().includes(lower) || lower.includes(opt.value.toLowerCase())) {
+        el.value = opt.value;
+        return;
+      }
+    }
+  }
+
+  if (pasteTarget === 'standard') {
+    setVal('s_residentName', getField('RESIDENT NAME'));
+    setVal('s_preferredName', getField('PREFERRED NAME'));
+    setVal('s_dob', getField('DATE OF BIRTH'));
+    // Unit parsing
+    const unitVal = getField('UNIT');
+    if (unitVal.toLowerCase().includes('garnock')) setSelect('s_unit', 'Garnock');
+    else if (unitVal.toLowerCase().includes('eglinton')) setSelect('s_unit', 'Eglinton');
+    setVal('s_roomNo', getField('ROOM NUMBER'));
+    setVal('s_namedNurse', getField('NAMED NURSE / KEY WORKER'));
+    setVal('s_planDate', getField('DATE ACP STARTED') || getField('DATE'));
+    setVal('s_peopleInvolved', getField('PEOPLE INVOLVED'));
+    setVal('s_goodDay', getField('WHAT MAKES A GOOD DAY FOR ME'));
+    setVal('s_valueMost', getField('WHAT I VALUE MOST RIGHT NOW'));
+    setVal('s_safeCalm', getField('WHAT HELPS ME FEEL SAFE AND CALM'));
+    setVal('s_worriesUpsets', getField('WHAT WORRIES OR UPSETS ME'));
+    setVal('s_personalCare', getField('PERSONAL CARE PREFERENCES'));
+    setVal('s_foodDrink', getField('FOOD AND DRINK PREFERENCES'));
+    setVal('s_socialCultural', getField('SOCIAL, CULTURAL OR FAITH NEEDS'));
+    setVal('s_whereSpendTime', getField('WHERE I PREFER TO SPEND MY TIME'));
+    setVal('s_understandHealth', getField('MY UNDERSTANDING OF MY HEALTH'));
+    setVal('s_healthChanges', getField('WHAT IS IMPORTANT TO ME IF MY HEALTH CHANGES'));
+    setVal('s_treatments', getField('TREATMENTS I WOULD OR WOULD NOT WANT'));
+    setVal('s_hospitalEscalation', getField('DECISIONS ABOUT HOSPITAL OR ESCALATION'));
+    setVal('s_approachUnwell', getField('PREFERRED APPROACH IF I BECOME UNWELL'));
+    setVal('s_whoContact', getField('WHO TO CONTACT'));
+    setVal('s_supportedIllness', getField('WHAT HELPS ME FEEL SUPPORTED DURING ILLNESS'));
+    setVal('s_hospitalViews', getField('VIEWS ON HOSPITAL ADMISSION'));
+    setVal('s_admissionNotAppropriate', getField('SITUATIONS WHERE ADMISSION MAY NOT BE APPROPRIATE'));
+    setSelect('s_dnacpr', getField('DNACPR STATUS') || getField('DNACPR'));
+    setVal('s_dnacprLocation', getField('DNACPR LOCATION'));
+    setVal('s_treatmentPlan', getField('TREATMENT ESCALATION PLAN'));
+    setVal('s_summaryDiscussion', getField('SUMMARY OF DISCUSSION'));
+    setVal('s_eolMatters', getField('WHAT WOULD MATTER MOST'));
+    setVal('s_preferredPlace', getField('PREFERRED PLACE OF CARE'));
+    setVal('s_peopleAroundMe', getField('PEOPLE I WOULD WANT AROUND ME'));
+    setVal('s_agreedWishes', getField('SUMMARY OF AGREED WISHES'));
+    setVal('s_reviewDate', getField('NEXT REVIEW DATE'));
+    setVal('s_triggers', getField('TRIGGERS FOR EARLIER REVIEW'));
+  } else {
+    setVal('d_residentName', getField('RESIDENT NAME'));
+    setVal('d_preferredName', getField('PREFERRED NAME'));
+    setVal('d_dob', getField('DATE OF BIRTH'));
+    const unitVal = getField('UNIT');
+    if (unitVal.toLowerCase().includes('garnock')) setSelect('d_unit', 'Garnock');
+    else if (unitVal.toLowerCase().includes('eglinton')) setSelect('d_unit', 'Eglinton');
+    setVal('d_roomNo', getField('ROOM NUMBER'));
+    setVal('d_namedNurse', getField('NAMED NURSE / KEY WORKER'));
+    setVal('d_stageDementia', getField('STAGE OF DEMENTIA'));
+    setVal('d_lifeHistory', getField('LIFE HISTORY AND BACKGROUND'));
+    setVal('d_valuesBeliefs', getField('VALUES AND BELIEFS'));
+    setVal('d_beforeDementia', getField('WHAT MATTERED BEFORE DEMENTIA PROGRESSED'));
+    setVal('d_signsComfort', getField('SIGNS OF COMFORT'));
+    setVal('d_signsDistress', getField('SIGNS OF DISTRESS'));
+    setVal('d_whatHelps', getField('WHAT HELPS REASSURE'));
+    setVal('d_whatAvoid', getField('WHAT SHOULD BE AVOIDED'));
+    setVal('d_personalCare', getField('PERSONAL CARE APPROACH'));
+    setVal('d_foodDrink', getField('FOOD AND DRINK PREFERENCES'));
+    setVal('d_environment', getField('ENVIRONMENT AND SENSORY NEEDS'));
+    setVal('d_currentHealth', getField('CURRENT HEALTH NEEDS'));
+    setVal('d_expectedProgression', getField('EXPECTED PROGRESSION'));
+    setVal('d_qualityOfLife', getField('WHAT DOES QUALITY OF LIFE MEAN NOW'));
+    setVal('d_approachUnwell', getField('PREFERRED APPROACH IF UNWELL'));
+    setVal('d_comfortMeasures', getField('COMFORT MEASURES TO PRIORITISE'));
+    setVal('d_interventionsAvoid', getField('INTERVENTIONS TO AVOID'));
+    setVal('d_hospitalViews', getField('VIEWS ON HOSPITAL ADMISSION'));
+    setVal('d_escalationThresholds', getField('ESCALATION THRESHOLDS'));
+    setSelect('d_dnacpr', getField('DNACPR STATUS') || getField('DNACPR'));
+    setVal('d_dnacprLocation', getField('DNACPR LOCATION'));
+    setVal('d_treatmentPlan', getField('TREATMENT ESCALATION PLAN'));
+    setVal('d_bestInterest', getField('BEST-INTEREST SUMMARY'));
+    setVal('d_comfortPriorities', getField('COMFORT PRIORITIES'));
+    setVal('d_preferredPlace', getField('PREFERRED PLACE OF CARE'));
+    setVal('d_spiritualWishes', getField('SPIRITUAL OR CULTURAL WISHES'));
+    setVal('d_keyPriorities', getField('KEY PRIORITIES FOR STAFF'));
+    setVal('d_reviewDate', getField('REVIEW DATE'));
+    setVal('d_triggers', getField('TRIGGERS FOR REVIEW') || getField('TRIGGERS FOR EARLIER REVIEW'));
+  }
+
+  closePasteModal();
+  alert('Fields filled! Check each step to review and edit before downloading.');
 }
 
 // ===== EXAMPLES =====
