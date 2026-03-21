@@ -579,15 +579,15 @@ table.d td.l{color:#0070C0;font-weight:bold;width:28%;background:#f5f8fc}
 }
 
 function downloadFile(html, filename) {
-  const blob = new Blob([html], { type: 'application/msword' });
-  const url = URL.createObjectURL(blob);
+  const cleanName = filename.replace(/[^a-zA-Z0-9 \-\.]/g, '');
+  const dataUri = 'data:application/msword;charset=utf-8,' + encodeURIComponent(html);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = filename.replace(/[^a-zA-Z0-9 \-\.]/g, '');
+  a.href = dataUri;
+  a.download = cleanName;
+  a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 // ===== PASTE FROM CLAUDE =====
